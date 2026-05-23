@@ -4,6 +4,6 @@ this is my first serious and very real web application. it's indended as being a
 
 # TODOs
 
-## Questions
+# Questions
 
 - Should the migrations be commited?
