@@ -32,9 +32,12 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     "myblog.apps.MyblogConfig",
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
+
+    "django.contrib.admin",  # admin stuff
+
+    "django.contrib.auth",  # auth module
+    "django.contrib.contenttypes",  # permissions module
+
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
@@ -44,11 +47,16 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+
+    # Cross-Site Requests Forgery protection
     "django.middleware.csrf.CsrfViewMiddleware",
+
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+CSRF_HEADER_NAME = "X-CSRFToken"  # default
 
 ROOT_URLCONF = "project.urls"
 

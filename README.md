@@ -14,4 +14,5 @@ Actually, let's just stick to obsidian terminology instead of overcomplicating i
 
 # Questions
 
-- Should the migrations be commited?
+- Should the migrations be commited? -> probably
+- Why 'Vaults' is the only table displayed in the adming menu?

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Vault(models.Model):
@@ -22,3 +23,8 @@ class Note(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class FavoriteNote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    note = models.ForeignKey(Note, on_delete=models.CASCADE)
