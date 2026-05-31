@@ -2,14 +2,21 @@
 from django.http import HttpResponse, Http404
 from django.template import loader
 from django.shortcuts import render, get_object_or_404
-from django.views.decorators.csrf import requires_csrf_token
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.db.models import Exists, OuterRef
 
-from .models import Vault, Folder, Note
+from .models import Vault, Folder, Note, FavoriteFolder, FavoriteNote, FavoriteVault
 
 
-@requires_csrf_token
+@ensure_csrf_cookie
 def vaults(request):
-    vaults = Vault.objects.all()
+    vaults = Vault.objects.all().annotate(
+        is_favorite=Exists(
+            FavoriteVault.objects.filter(
+                vault=OuterRef('pk')
+            )
+        )
+    )
     template = loader.get_template("blog/items.html")
     context = {
         "item_type": "vaults",
@@ -20,7 +27,7 @@ def vaults(request):
     return HttpResponse(template.render(context, request))
 
 
-@requires_csrf_token
+@ensure_csrf_cookie
 def folders(request, vault_id):
     get_object_or_404(Vault, id=vault_id)
     folders = Folder.objects.filter(vault__id=vault_id)
@@ -33,7 +40,7 @@ def folders(request, vault_id):
     return render(request, "blog/items.html", context)
 
 
-@requires_csrf_token
+@ensure_csrf_cookie
 def notes(request, folder_id):
     get_object_or_404(Folder, id=folder_id)
     notes = Note.objects.filter(folder__id=folder_id)

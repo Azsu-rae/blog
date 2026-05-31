@@ -15,15 +15,19 @@ VAULTS = [
                     },
                 ],
             },
-        ]
+        ],
+        "is_favorite": True,
     }, {
         "name": "WebDev",
-        "folders": []
+        "folders": [],
+        "is_favorite": False,
     }, {
         "name": "Probability",
-        "folders": []
+        "folders": [],
+        "is_favorite": True,
     }, {
         "name": "Optimization",
-        "folders": []
+        "folders": [],
+        "is_favorite": False,
     },
 ]

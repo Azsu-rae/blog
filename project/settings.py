@@ -56,7 +56,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CSRF_HEADER_NAME = "X-CSRFToken"  # default
+CSRF_HEADER_NAME = "HTTP_X_CSRFTOKEN"  # actual default
 
 ROOT_URLCONF = "project.urls"
 

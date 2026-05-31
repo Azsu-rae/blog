@@ -25,6 +25,16 @@ class Note(models.Model):
         return self.name
 
 
+class FavoriteVault(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    vault = models.ForeignKey(Vault, on_delete=models.CASCADE)
+
+
+class FavoriteFolder(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    folder = models.ForeignKey(Folder, on_delete=models.CASCADE)
+
+
 class FavoriteNote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     note = models.ForeignKey(Note, on_delete=models.CASCADE)
