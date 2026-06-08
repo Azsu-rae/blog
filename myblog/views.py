@@ -66,5 +66,5 @@ def search_results(request):
 
 
 def favorite(request):
-    print(request.body)
+
     return HttpResponse("Success.")

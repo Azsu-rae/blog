@@ -3,11 +3,16 @@ from django.core.management.base import BaseCommand
 from myblog.hardcoded import VAULTS
 from myblog.models import Vault, User
 
+from django.contrib.auth import get_user_model
+
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        u = User.objects.get(username='asura')
+        u = get_user_model().objects.create_superuser(
+            username='ilyas',
+            password='ilyas123',
+        )
         for v_data in VAULTS:
             v = Vault.objects.create(name=v_data["name"])
             if v_data["is_favorite"]:
