@@ -1,0 +1,8 @@
+{
+  "profile": "django",
+  "wrap_attributes": true,
+  "max_attribute_length": 40,
+
+  "indent": 2,
+  "use_tabs": false
+}

@@ -1,105 +1,33 @@
+{% load static %}
 <!DOCTYPE html>
-
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <title>{{ item_type }}</title>
-  <style>
-    .star-button {
-      font-size: 1.2rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-
-    .filled {
-      color: gold;
-    }
-
-    .empty {
-      color: gray;
-    }
-  </style>
-</head>
-
-<body>
-  <form action="{% url 'blog:search_results' %}" method="get">
-
-    <input type="text" name="search">
-    <button type="submit">search</button>
-  </form>
-
-  <ul>
-    {% for i in items %}
-    <li>
-      <a href="{% url content_url i.id %}">{{ i.name }}</a>
-      <button type="button"
-        class="star-button {% if i.is_favorite %}filled{% else %}empty{% endif %}"
-        data-item-id="{{ i.id }}" data-type="{{ item_type }}">
-        ★
-      </button>
-    </li>
-    {% empty %}
-    <li>No {{ item_type }} found.</li>
-    {% endfor %}
-  </ul>
-  <script>
-
-    function getCookie(name) {
-
-      let cookieVal = null;
-      if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-          const cookie = cookies[i].trim();
-          if (cookie.substring(0, name.length + 1) === (name + '=')) {
-            cookieVal = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-
-      return cookieVal;
-    }
-
-    document.querySelectorAll(".star-button").forEach(star => {
-      star.addEventListener("click", async () => {
-
-        const isFavorite = star.classList.contains("filled")
-        const id = star.dataset.itemId
-        const type = star.dataset.type
-
-        const csrfToken = getCookie("csrftoken")
-        if (csrfToken === null) {
-          throw new Error(`No CSRF token found!`);
-        }
-
-        const response = await fetch("/blog/favorite/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": csrfToken
-          },
-          body: JSON.stringify({
-            operation: isFavorite ? "remove" : "add",
-            type: type,
-            id: id
-          }),
-        });
-
-        if (response.ok) {
-          star.classList.toggle("filled");
-          star.classList.toggle("empty");
-        } else {
-          console.log(`csrf token: ${getCookie("csrftoken")}`)
-          throw new Error(`Response status: ${response.status}`);
-        }
-
-      });
-
-    });
-  </script>
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ item_type }}</title>
+    <link rel="stylesheet"
+          href="{% static 'blog/css/styles.css' %}" />
+    <script src="{% static 'blog/js/favorites.js' %}"
+            defer></script>
+  </head>
+  <body>
+    <form action="{% url 'blog:search_results' %}"
+          method="get">
+      <input type="text" name="search" />
+      <button type="submit">search</button>
+    </form>
+    <ul>
+      {% for i in items %}
+        <li>
+          <a href="{% url content_url i.id %}">{{ i.name }}</a>
+          <button type="button"
+                  class="star-button {% if i.is_favorite %}filled{% else %}empty{% endif %}"
+                  data-item-id="{{ i.id }}"
+                  data-type="{{ item_type }}">★</button>
+        </li>
+      {% empty %}
+        <li>No {{ item_type }} found.</li>
+      {% endfor %}
+    </ul>
+    <script></script>
+  </body>
 </html>

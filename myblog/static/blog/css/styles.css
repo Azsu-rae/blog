@@ -1,0 +1,14 @@
+.star-button {
+  font-size: 1.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.filled {
+  color: gold;
+}
+
+.empty {
+  color: gray;
+}
