@@ -25,6 +25,7 @@
 
 <body>
   <form action="{% url 'blog:search_results' %}" method="get">
+
     <input type="text" name="search">
     <button type="submit">search</button>
   </form>
@@ -33,7 +34,8 @@
     {% for i in items %}
     <li>
       <a href="{% url content_url i.id %}">{{ i.name }}</a>
-      <button type="button" class="star-button {% if i.is_favorite %}filled{% else %}empty{% endif %}"
+      <button type="button"
+        class="star-button {% if i.is_favorite %}filled{% else %}empty{% endif %}"
         data-item-id="{{ i.id }}" data-type="{{ item_type }}">
         ★
       </button>
