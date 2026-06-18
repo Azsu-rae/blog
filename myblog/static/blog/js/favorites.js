@@ -16,15 +16,14 @@ function getCookie(name) {
 document.querySelectorAll(".star-button").forEach((star) => {
   star.addEventListener("click", async () => {
     const isFavorite = star.classList.contains("filled");
-    const id = star.dataset.itemId;
-    const type = star.dataset.type;
+    const id = star.dataset.noteId;
 
     const csrfToken = getCookie("csrftoken");
     if (csrfToken === null) {
       throw new Error(`No CSRF token found!`);
     }
 
-    const response = await fetch("/blog/favorite/", {
+    const response = await fetch("/favorite", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,17 +31,16 @@ document.querySelectorAll(".star-button").forEach((star) => {
       },
       body: JSON.stringify({
         operation: isFavorite ? "remove" : "add",
-        type: type,
         id: id,
       }),
     });
 
-    if (response.ok) {
-      star.classList.toggle("filled");
-      star.classList.toggle("empty");
-    } else {
+    if (!response.ok) {
       console.log(`csrf token: ${getCookie("csrftoken")}`);
       throw new Error(`Response status: ${response.status}`);
     }
+
+    star.classList.toggle("filled");
+    star.classList.toggle("empty");
   });
 });

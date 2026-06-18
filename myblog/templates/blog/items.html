@@ -1,33 +1,23 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>{{ item_type }}</title>
-    <link rel="stylesheet"
-          href="{% static 'blog/css/styles.css' %}" />
-    <script src="{% static 'blog/js/favorites.js' %}"
-            defer></script>
-  </head>
-  <body>
-    <form action="{% url 'blog:search_results' %}"
-          method="get">
-      <input type="text" name="search" />
-      <button type="submit">search</button>
-    </form>
-    <ul>
-      {% for i in items %}
-        <li>
-          <a href="{% url content_url i.id %}">{{ i.name }}</a>
+{% block script %}
+  <script src="{% static 'blog/js/favorites.js' %}" defer></script>
+{% endblock script %}
+{% block content %}
+  <ul>
+    {% for i in items %}
+      <li>
+        <a href="{% url content_url i.id %}">{{ i.name }}</a>
+        {% if item_type == "notes" %}
           <button type="button"
                   class="star-button {% if i.is_favorite %}filled{% else %}empty{% endif %}"
-                  data-item-id="{{ i.id }}"
-                  data-type="{{ item_type }}">★</button>
-        </li>
-      {% empty %}
-        <li>No {{ item_type }} found.</li>
-      {% endfor %}
-    </ul>
-    <script></script>
-  </body>
-</html>
+                  data-note-id="{{ i.id }}">
+            <span>&#9733;</span> <!-- ★ -->
+          </button>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>No {{ item_type }} found.</li>
+    {% endfor %}
+  </ul>
+{% endblock content %}

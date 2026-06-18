@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{{ item_type }}</title>
+    <link rel="stylesheet" href="{% static 'blog/css/styles.css' %}" />
+    {% block script %}
+      <p>empty script block!</p>
+    {% endblock script %}
+  </head>
+  <body>
+    {% block content %}
+      <p>empty content block!</p>
+    {% endblock content %}
+  </body>
+</html>

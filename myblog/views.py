@@ -1,70 +1,49 @@
 
 from django.http import HttpResponse, Http404
 from django.template import loader
-from django.shortcuts import render, get_object_or_404
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.db.models import Exists, OuterRef
 
-from .models import Vault, Folder, Note, FavoriteFolder, FavoriteNote, FavoriteVault
+from .models import Vault, Folder, Note
 
 
-@ensure_csrf_cookie
 def vaults(request):
-    vaults = Vault.objects.all().annotate(
-        is_favorite=Exists(
-            FavoriteVault.objects.filter(
-                vault=OuterRef('pk')
-            )
-        )
-    )
-    template = loader.get_template("blog/items.html")
-    context = {
+    return HttpResponse(loader.get_template("blog/items.html").render({
         "item_type": "vaults",
         "item_content": "folders",
         "content_url": "blog:folders",
-        "items": vaults
-    }
-    return HttpResponse(template.render(context, request))
+        "items": Vault.objects.all()
+    }, request))
 
 
-@ensure_csrf_cookie
 def folders(request, vault_id):
-    get_object_or_404(Vault, id=vault_id)
-    folders = Folder.objects.filter(vault__id=vault_id)
-    context = {
-        "item_type": "folders",
-        "item_content": "notes",
-        "content_url": "blog:notes",
-        "items": folders
-    }
-    return render(request, "blog/items.html", context)
+    try:
+        return HttpResponse(loader.get_template("blog/items.html").render({
+            "item_type": "folders",
+            "item_content": "notes",
+            "content_url": "blog:notes",
+            "items": Folder.objects.filter(vault=Vault.objects.get(id=vault_id))
+        }, request))
+    except Vault.DoesNotExist:
+        raise Http404("Requested Vault doesn't exist!")
 
 
-@ensure_csrf_cookie
 def notes(request, folder_id):
-    get_object_or_404(Folder, id=folder_id)
-    notes = Note.objects.filter(folder__id=folder_id)
-    context = {
-        "item_type": "notes",
-        "item_content": "detail",
-        "content_url": "blog:detail",
-        "items": notes
-    }
-    return render(request, "blog/items.html", context)
+    try:
+        return HttpResponse(loader.get_template("blog/items.html").render({
+            "item_type": "notes",
+            "item_content": "detail",
+            "content_url": "blog:detail",
+            "items": Note.objects.filter(folder=Folder.objects.get(id=folder_id))
+        }, request))
+    except Folder.DoesNotExist:
+        raise Http404("Requested Folder doesn't exist!")
 
 
 def detail(request, note_id):
     try:
-        Note.objects.get(id=note_id)
+        return HttpResponse(f"requesting content for note '{Note.objects.get(id=note_id)}'.")
     except Note.DoesNotExist:
-        raise Http404("note doesn't exist")
-    return HttpResponse(f"requesting content for note {note_id}.")
-
-
-def search_results(request):
-    return HttpResponse("search result.")
+        raise Http404("Requested Note doesn't exist!")
 
 
 def favorite(request):
-
     return HttpResponse("Success.")

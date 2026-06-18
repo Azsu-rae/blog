@@ -15,9 +15,11 @@ class Command(BaseCommand):
         )
         for v_data in VAULTS:
             v = Vault.objects.create(name=v_data["name"])
-            if v_data["is_favorite"]:
-                v.favoritevault_set.create(user=u)
             for f_data in v_data["folders"]:
                 f = v.folder_set.create(name=f_data["name"])
                 for n_data in f_data["notes"]:
-                    f.note_set.create(name=n_data["name"])
+                    n = f.note_set.create(name=n_data["name"])
+                    if n_data["is_favorite"]:
+                        n.favoritenote_set.create(user=u)
+
+

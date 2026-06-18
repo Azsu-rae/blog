@@ -8,26 +8,25 @@ VAULTS = [
                 "notes": [
                     {
                         "name": "What is a neuron?",
+                        "is_favorite": True
                     }, {
                         "name": "Gradient Descent",
+                        "is_favorite": False
                     }, {
                         "name": "MNIST",
+                        "is_favorite": False
                     },
                 ],
             },
         ],
-        "is_favorite": True,
     }, {
         "name": "WebDev",
         "folders": [],
-        "is_favorite": False,
     }, {
         "name": "Probability",
         "folders": [],
-        "is_favorite": True,
     }, {
         "name": "Optimization",
         "folders": [],
-        "is_favorite": False,
     },
 ]
