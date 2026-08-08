@@ -8,6 +8,10 @@ The idea evolved. It was originally simply intended as being a web view into my 
 to be a fully-blown knowledge base of university courses that i attended to help with the coursework and bridge the
 gap between academic validation and actual learning and knowledge.
 
+# Ressources
+
+- https://learn-anything.xyz/
+
 # Slashes
 
 ### Why Django cares
